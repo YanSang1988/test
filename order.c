@@ -1,13 +1,24 @@
 #include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
 
-static void swapnum(int *a,int *b);
-static int soutarr(int *arr,int n);
+
+void swapnum(void *arr,int size,int i,int j);
+int soutarr(void *arr,int n,int size);
+
+int (*cmp)(const void *data1,const void *data2)
+{
+		const int *d1=data1;
+		const int *d2=data2;
+
+		return *d1-*d2;
+}
 
 int main()
 {   
 		int i;
 		int arr[]={3,2,1,4,5,6,9,7};
-		soutarr(arr,sizeof(arr)/sizeof(*arr));
+		soutarr(arr,sizeof(arr)/sizeof(*arr),sizeof(*arr));
 		for(i=0;i<sizeof(arr)/sizeof(*arr);i++ )
 		{
 				printf("%d",arr[i]);
@@ -17,24 +28,25 @@ int main()
 }
 
 
-static void swapnum(int *a,int *b)
+void swapnum(void *arr,int size,int i,int j)
 {
-		int tmp;
-		tmp=*a;
-		*a=*b;
-		*b=tmp;
+		char *tmp=malloc(size);
+		memcpy(tmp,(char *)arr+j*size,size);
+		memcpy((char *)arr+j*size,(char *)arr+(j+1)*size,size);
+		memcpy((char *)arr+(j+1)*size,tmp,size);
 }
 
-static int soutarr(int *arr,int n)
+int soutarr(void *arr,int n,int size)
 {
+
 		int i,j;
 		for(i=0;i<n-1;i++)
 		{
 				for(j=0;j<n-i-1;j++) 
 								{
-										if(arr[j]>arr[j+1])
+										if(cmp((char *)arr+j*size,(char *)arr+(j+1)*size)>0)
 										{
-												swapnum(arr+j,arr+j+1);
+												swapnum(arr,size,i,j);
 										}
 								}
 		}
