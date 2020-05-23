@@ -12,7 +12,7 @@ int spitstring(const char *buf1,char c,char ***myp3,int *count)
 		ptmp=buf1;
 		do
 		{
-				p=strcpy(p,c);
+				p=strchr(p,c);
 				if(p!=NULL)
 				{
 						if(p-ptmp>0)
