@@ -2,8 +2,30 @@
 #include<stdlib.h>
 #include<string.h>
 
+void freemem3(char ***p,int count)
+{
+		int i=0;
+		char **myp=NULL;
+		if(p=NULL)
+		{
+				return;
+		}
+		myp=*p;
+		for(i=0;i<count;i++)
+		{
+				if(myp[i]!=NULL)
+				{
+						free(myp[i]);
+				}
+		}
+		if(myp!=NULL)
+		{
+				free(myp);
+		}
+		*p=NULL;
+}
 
-int spitstring(const char *buf1,char c,char ***myp3,int *count)
+int spitstring( char *buf1,char c,char ***myp3,int *count)
 {
 		int ret=0;
 		char *p=NULL,*ptmp=NULL;
@@ -74,7 +96,7 @@ do
 END:
 		if(ret!=0)
 		{
-				freemem(&myp3,*count);												
+				freemem3(&myp,*count);												
 		}
 		else
 		{
@@ -87,7 +109,7 @@ void main()
 {
 		int ret=0,i=0;
 		char *p1="abcdef,acv";
-		char ctem=",";
+		char ctem=',';
 		int ncount;
 		char **p=NULL;
 		
